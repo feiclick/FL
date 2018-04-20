@@ -2,7 +2,11 @@ token
 
 FormsAuthentication.SetAuthCookie Method
 
-
+https://github.com/restsharp/RestSharp/blob/0cd360a28d376cdcad789d2baa271450b7a35ffc/RestSharp/RestClient.Async.cs
+http://pawel.sawicz.eu/async-and-restsharp/
+https://stackoverflow.com/questions/31142740/in-c-can-i-set-some-httpclienthandler-properties-in-restsharp
+https://stackoverflow.com/questions/36061745/converting-httpclient-to-restsharp/36062297#36062297
+----------------------------------
 [TestMethod]
 		public async Task SignIn_IfTokenValid_CookiesAreCreated()
 		{
