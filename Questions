@@ -38,6 +38,8 @@ draft
             //User/SignIn?token=
 
             RestRequest.AddHeader("Token", token);// not header,  url?
+	    
+	    or  RestRequestLogin.AddUrlSegment("strtoken", token);??
 
             IRestResponse restResponse = RestClient.Execute(RestRequest);
 
