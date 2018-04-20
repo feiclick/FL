@@ -1,0 +1,70 @@
+token
+
+FormsAuthentication.SetAuthCookie Method
+
+
+[TestMethod]
+		public async Task SignIn_IfTokenValid_CookiesAreCreated()
+		{
+			// Arrange
+			using (var handler = new HttpClientHandler())
+			using (var httpClient = new HttpClient(handler))
+			{
+				httpClient.BaseAddress = new Uri(ApiTestsSettings.Default.HostUrl);
+			    var token = GetEncodedToken(DateTime.UtcNow);
+
+                // Act
+                var response =
+			        await httpClient.GetAsync(
+			            $"{ApiPrefix}User/SignIn?token={token}");
+
+                // Assert
+                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+				Assert.AreEqual(2, handler.CookieContainer.Count);
+				var cookies = handler.CookieContainer.GetCookies(new Uri(ApiTestsSettings.Default.HostUrl));
+				Assert.AreEqual(".ASIAUTH", cookies[0].Name);
+			}
+		}
+
+draft
+
+[TestMethod]
+        public void API_ValidateFolder_VerifyFolder_isDisplayed()
+        {
+
+            RestRequest.RequestFormat = DataFormat.Json;
+
+            var token = GetEncodedToken(DateTime.UtcNow);
+            //User/SignIn?token=
+
+            RestRequest.AddHeader("Token", token);// not header,  url?
+
+            IRestResponse restResponse = RestClient.Execute(RestRequest);
+
+
+            var param = new FlSearchP
+            {
+                Filters = new List<SearchF>
+                {
+                    GetsSearchF()
+                }
+
+            };
+
+
+            RestRequest.Parameters.Clear();
+
+            var json = RestRequest.JsonSerializer.Serialize(param);
+
+
+            RestRequest.AddParameter("application/json; charset=utf-8", json, ParameterType.RequestBody);
+
+            IRestResponse restResponse2 = RestClient.Execute(RestRequest);
+
+            //assert
+            Assert.AreEqual(HttpStatusCode.OK, restResponse.StatusCode);
+
+
+
+        }
+
