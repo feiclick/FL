@@ -1,0 +1,43 @@
+  var response = client.Execute<Message>(request);
+return response.Data;
+-------------------------------------            
+ Stream stream = response.GetResponseStream();
+ StreamReader reader = new StreamReader(stream);
+ string restResponse = reader.ReadToEnd();
+ stream.Close();
+reader.Close();
+JavaScriptSerializer serializer = new JavaScriptSerializer();
+Message message = serializer.Deserialize<Message>(restResponse);
+ -----------------------
+             IRestResponse x = client.Execute(request);
+ JavaScriptSerializer serializer = new JavaScriptSerializer();
+ Message message = serializer.Deserialize<Message>(x);
+ -----------------------
+ 
+ 新建一个类：public class ResultToJson
+    {
+        public static HttpResponseMessage toJson(Object obj)
+        {
+            String str;
+            if (obj is String || obj is Char)
+            {
+                str = obj.ToString();
+            }
+            else
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                str = serializer.Serialize(obj);
+            }
+            HttpResponseMessage result = new HttpResponseMessage { Content = new StringContent(str, Encoding.GetEncoding("UTF-8"), "application/json") };
+            return result;
+        } 
+    }
+
+
+
+
+
+https://blog.csdn.net/hezepeng1996/article/details/51955676
+
+https://zhidao.baidu.com/question/1860417511517892747.html
+C#怎么从http上返回JSON数据并读取？
